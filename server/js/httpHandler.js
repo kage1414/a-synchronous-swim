@@ -14,6 +14,19 @@ module.exports.initialize = (queue) => {
 };
 
 module.exports.router = (req, res, next = ()=>{}) => {
+  let file;
+  fs.readFile(module.exports.backgroundImageFile, (err, fileData) => {
+    if (err) {
+      res.writeHead(404, headers);
+      res.end();
+      next();
+      return;
+    } else {
+      const parts = multipart.getFile(fileData);
+      file = parts.filename;
+    }
+  })
+  if (!file) { return; }
   console.log('Serving request type ' + req.method + ' for url ' + req.url);
   res.writeHead(200, headers);
   if (req.method === 'GET') {

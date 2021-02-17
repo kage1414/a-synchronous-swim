@@ -54,5 +54,5 @@
   });
 
 
-  /* setInterval(() => { swimFetch() }, 1000); */
+  setInterval(() => { swimFetch() }, 1000);
 })();

@@ -15,7 +15,7 @@ describe('server responses', () => {
     expect(res._responseCode).to.equal(200);
     expect(res._ended).to.equal(true);
     expect(res._data.toString()).to.be.empty;
-
+    console.log(res._data.toString());
     done();
   });
 
@@ -24,7 +24,7 @@ describe('server responses', () => {
     httpHandler.router(req, res);
     expect(res._responseCode).to.equal(200);
     expect(res._ended).to.equal(true);
-    expect(directions).to.include(res._data.toString());
+    expect(['up','down','right','left']).to.include(res._data.toString());
     done();
   });
 

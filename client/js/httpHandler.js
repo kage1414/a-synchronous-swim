@@ -8,7 +8,7 @@
       url: serverUrl,
       success: (data) => {
         console.log('swimFetch')
-        SwimTeam.move(data.toString());
+        SwimTeam.move(data);
       }
     });
   };
@@ -54,8 +54,5 @@
   });
 
 
-  $('body').on('click', '#swimFetch', function() {
-    swimFetch();
-  })
-
+  /* setInterval(() => { swimFetch() }, 1000); */
 })();

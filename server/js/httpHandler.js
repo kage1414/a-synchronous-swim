@@ -14,32 +14,43 @@ module.exports.initialize = (queue) => {
 };
 
 module.exports.router = (req, res, next = ()=>{}) => {
-  let file;
-  fs.readFile(module.exports.backgroundImageFile, (err, fileData) => {
-    if (err) {
-      res.writeHead(404, headers);
+  console.log('Serving request type ' + req.method + ' for url ' + req.url);
+
+  if (req.method === 'GET') {
+    if (req.url === '/background.jpg') {
+      fs.readFile(module.exports.backgroundImageFile, (error, buffer) => {
+        (error) ? console.log(error) : console.log(buffer);
+        if (error) {
+          res.writeHead(404, headers);
+        } else {
+          // console.log('no error')
+          res.writeHead(200, headers);
+          res.write(buffer);
+        }
+        res.end();
+        next();
+      });
+    }
+    if (req.url === '/swim') {
+      let direction = queue.dequeue();
+      if (direction) {
+        res.writeHead(200, headers);
+        res.write(direction);
+      } else {
+        const directions = ['up', 'down', 'left', 'right'];
+        const randomNum = Math.floor(Math.random() * 4);
+        const randomDirection = directions[randomNum];
+        res.writeHead(200, headers);
+        res.write(randomDirection);
+      }
       res.end();
       next();
-      return;
-    } else {
-      const parts = multipart.getFile(fileData);
-      file = parts.filename;
-    }
-  })
-  if (!file) { return; }
-  console.log('Serving request type ' + req.method + ' for url ' + req.url);
-  res.writeHead(200, headers);
-  if (req.method === 'GET') {
-    let direction = queue.dequeue();
-    if (direction) {
-      res.write(direction);
-    } else {
-      const directions = ['up', 'down', 'left', 'right'];
-      const randomNum = Math.floor(Math.random() * 4);
-      const randomDirection = directions[randomNum];
-      res.write(randomDirection);
     }
   }
-  res.end();
-  next(); // invoke next() at the end of a request to help with testing!
+  if (req.method === 'OPTIONS') {
+    res.writeHead(200, headers);
+    res.end();
+    next();
+  }
+  // next(); // invoke next() at the end of a request to help with testing!
 };

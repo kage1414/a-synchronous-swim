@@ -2,16 +2,25 @@
 
   const serverUrl = 'http://127.0.0.1:3000';
 
+  const background = () => {
+    $.ajax({
+      type: 'GET',
+      url: serverUrl + '/background',
+      success: () => {}
+    });
+  };
+
   const swimFetch = () => {
     $.ajax({
       type: 'GET',
-      url: serverUrl,
+      url: serverUrl + '/swim',
       success: (data) => {
         console.log('swimFetch')
         SwimTeam.move(data);
       }
     });
   };
+
 
   /////////////////////////////////////////////////////////////////////
   // The ajax file uploader is provided for your convenience!

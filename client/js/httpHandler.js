@@ -5,8 +5,13 @@
   const background = () => {
     $.ajax({
       type: 'GET',
-      url: serverUrl + '/background',
-      success: () => {}
+      url: serverUrl + '/background.jpg',
+      success: (file) => {
+        $('body').css('background-img', `url(${file})`);
+      },
+      error: (error) => {
+        console.error(error);
+      }
     });
   };
 
@@ -62,6 +67,6 @@
     ajaxFileUpload(file);
   });
 
-
+  background();
   setInterval(() => { swimFetch() }, 1000);
 })();

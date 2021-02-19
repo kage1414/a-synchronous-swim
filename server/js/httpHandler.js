@@ -19,7 +19,6 @@ module.exports.router = (req, res, next = ()=>{}) => {
   if (req.method === 'GET') {
     if (req.url === '/background.jpg') {
       fs.readFile(module.exports.backgroundImageFile, (error, buffer) => {
-        (error) ? console.log(error) : console.log(buffer);
         if (error) {
           res.writeHead(404, headers);
         } else {

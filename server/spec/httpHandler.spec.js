@@ -4,8 +4,7 @@ const path = require('path');
 const expect = require('chai').expect;
 const server = require('./mockServer');
 const httpHandler = require('../js/httpHandler');
-const queue = require('../js/messageQueue')
-httpHandler.initialize(queue)
+
 
 describe('server responses', () => {
 
@@ -41,8 +40,7 @@ describe('server responses', () => {
   });
 
   it('should respond with 200 to a GET request for a present background image', (done) => {
-    httpHandler.backgroundImageFile = path.join('..', 'js', 'background.jpg');
-    console.log(httpHandler)
+    httpHandler.backgroundImageFile = path.join('.', 'js', 'background.jpg');
     let {req, res} = server.mock('/background.jpg', 'GET');
     httpHandler.router(req, res, () => {
       expect(res._responseCode).to.equal(200);

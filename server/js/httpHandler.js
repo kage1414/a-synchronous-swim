@@ -46,6 +46,27 @@ module.exports.router = (req, res, next = ()=>{}) => {
       next();
     }
   }
+
+  if (req.method === 'POST') {
+    if (req.url === '/') {
+      res.writeHead(201, headers);
+      var image = Buffer.alloc(0);
+      req.on('data', (chunk) => {
+        image = Buffer.concat([image, Buffer.from(chunk)]);
+      })
+      req.on('end', () => {
+        let multi = multipart.getFile(image);
+        fs.writeFile(module.exports.backgroundImageFile, multi.data, (err) => {
+          if (err) {
+            console.log(err);
+          }
+        })
+      })
+      res.end();
+      next();
+    }
+  }
+
   if (req.method === 'OPTIONS') {
     res.writeHead(200, headers);
     res.end();

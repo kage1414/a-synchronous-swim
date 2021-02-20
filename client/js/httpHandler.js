@@ -2,19 +2,6 @@
 
   const serverUrl = 'http://127.0.0.1:3000';
 
-  const background = () => {
-    $.ajax({
-      type: 'GET',
-      url: serverUrl + '/background.jpg',
-      success: (file) => {
-        $('body').css('background-img', `url(${file})`);
-      },
-      error: (error) => {
-        console.error(error);
-      }
-    });
-  };
-
   const swimFetch = () => {
     $.ajax({
       type: 'GET',
@@ -67,6 +54,5 @@
     ajaxFileUpload(file);
   });
 
-  background();
   setInterval(() => { swimFetch() }, 1000);
 })();
